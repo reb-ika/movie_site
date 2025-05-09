@@ -1,10 +1,25 @@
 <?php
 require_once '../config/db.php';
 require_once '../middleware/auth_check.php';
+
+if (!function_exists('require_auth')) {
+    function require_auth() {
+        // Example implementation of require_auth
+        if (!isset($_SESSION['user_id'])) {
+            send_response(false, "Unauthorized", null, 401);
+            exit;
+        }
+    }
+}
 require_once '../utils/response.php';
 
 require_auth();
-$user_id = get_authenticated_user_id();
+$user_id = $_SESSION['user_id'] ?? null;
+
+if (!$user_id) {
+    send_response(false, "Unauthorized", null, 401);
+    exit;
+}
 
 $data = json_decode(file_get_contents("php://input"), true);
 $comment_id = $data['comment_id'] ?? null;
