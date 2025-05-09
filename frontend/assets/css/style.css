@@ -1,0 +1,91 @@
+
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    padding-top: 70px; /* Offset for fixed navbar */
+  }
+  
+  /* Header */
+  header {
+    background-color: #343a40;
+    color: #fff;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  /* Navigation */
+  nav {
+    background-color: #212529;
+  }
+  
+  nav a.nav-link {
+    color: #f8f9fa;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  
+  nav a.nav-link:hover {
+    color: #ffc107;
+  }
+  
+  /* Main container */
+  .container {
+    margin-top: 2rem;
+  }
+  
+  /* Movie Cards */
+  .card.movie-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  
+  .card.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Admin-specific Styles */
+  .admin-header {
+    background-color: #0d6efd;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .admin-nav .nav-link {
+    color: #ffd700;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 4rem;
+  }
+  
