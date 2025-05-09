@@ -3,7 +3,7 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 require_once '../../config/db.php';
-require_once '../../api/classes/UserAPI.php';
+require_once '../../api/users/UsersAPI.php';
 require_once '../../middleware/auth_check.php';
 
 function authenticate() {

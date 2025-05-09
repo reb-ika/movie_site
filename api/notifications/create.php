@@ -5,37 +5,40 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 require_once '../../config/db.php';
-require_once '../../api/favorites/FavoritesAPI.php';
+require_once '../../NotificationsAPI.php';
 require_once '../../middleware/auth_check.php';
 
 $database = new Database();
 $db = $database->connect();
 
-$favoritesAPI = new FavoritesAPI($db);
+$notificationsAPI = new NotificationsAPI($db);
 
-// Authenticate user
+// Authenticate user (only admins or system should create notifications)
 $user = authenticate();
-$favoritesAPI->user_id = $user['id'];
+if ($user['role'] !== 'admin') {
+    http_response_code(403);
+    echo json_encode(['message' => 'Unauthorized']);
+    exit;
+}
 
 // Get input data
 $data = json_decode(file_get_contents("php://input"));
 
-if (!empty($data->movie_id)) {
-    $favoritesAPI->movie_id = $data->movie_id;
+if (!empty($data->user_id) && !empty($data->type) && !empty($data->message)) {
+    $notificationsAPI->user_id = $data->user_id;
+    $notificationsAPI->type = $data->type;
+    $notificationsAPI->message = $data->message;
+    $notificationsAPI->related_id = $data->related_id ?? null;
 
     try {
-        if ($favoritesAPI->add()) {
+        if ($notificationsAPI->create()) {
             http_response_code(201);
             echo json_encode([
                 'success' => true,
-                'message' => 'Movie added to favorites',
-                'favorite_id' => $favoritesAPI->id
+                'message' => 'Notification created'
             ]);
         } else {
-            echo json_encode([
-                'success' => true,
-                'message' => 'Movie was already in favorites'
-            ]);
+            throw new Exception('Failed to create notification');
         }
     } catch (Exception $e) {
         http_response_code(400);
@@ -48,6 +51,6 @@ if (!empty($data->movie_id)) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Movie ID is required'
+        'message' => 'Required fields: user_id, type, message'
     ]);
 }

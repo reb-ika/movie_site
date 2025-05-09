@@ -17,14 +17,9 @@ $notificationsAPI = new NotificationsAPI($db);
 $user = authenticate();
 $notificationsAPI->user_id = $user['id'];
 
-// Get limit from query params
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
-
-$stmt = $notificationsAPI->getUserNotifications($limit);
-$notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$count = $notificationsAPI->getUnreadCount();
 
 echo json_encode([
     'success' => true,
-    'data' => $notifications,
-    'count' => count($notifications)
+    'count' => $count
 ]);

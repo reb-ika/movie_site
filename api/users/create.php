@@ -5,7 +5,8 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 require_once '../../config/db.php';
-require_once '../../api/classes/UserAPI.php';
+require_once '../../api/users/UsersAPI.php';
+require_once '../../middleware/auth_check.php';
 
 $database = new Database();
 $db = $database->connect();
